@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4  # Updated from v2 to v4
 
       - name: Run Tests
-        run: docker-compose run --rm app sh -c "python manage.py test"
+        run: docker compose run --rm app sh -c "python manage.py test"
 
       - name: Run Linter
-        run: docker-compose run --rm app sh -c "python manage.py flake8"
+        run: docker compose run --rm app sh -c "python manage.py flake8"
