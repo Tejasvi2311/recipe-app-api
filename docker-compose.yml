@@ -5,7 +5,7 @@ services:
     build:
       context: .  # The build context (missing value here, should specify the directory containing the Dockerfile)
       args:
-        - DEV=true
+        - DEV=true  # docker-compose.yml file for development 
     
     ports:
       - "8000:8000"  # Maps port 8000 of the container to port 8000 on the host machine.
@@ -15,3 +15,22 @@ services:
     
     command: >  # Specifies the command to run inside the container.
       sh -c "python manage.py runserver 0.0.0.0:8000"  # Starts the Django development server.
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changename
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changename
+  
+volumes:
+  dev-db-data:
